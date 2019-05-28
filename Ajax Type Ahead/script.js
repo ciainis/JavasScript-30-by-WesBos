@@ -7,6 +7,10 @@ fetch(endpoint)
     .then(data => cities.push(...data));
 
 function findMatches(word, cities) {
+    if (word === '' || word === ' ') {
+        return;
+    }
+
     return cities.filter(place => {
         const regex = new RegExp(word, 'gi');
         return place.city.match(regex) || place.state.match(regex);
@@ -14,18 +18,18 @@ function findMatches(word, cities) {
 }
 
 function displayMatches() {
+    while (suggestions.lastChild) {
+        suggestions.removeChild(suggestions.lastChild);
+    }
+
     const matchesArr = findMatches(this.value, cities);
+    
+    matchesArr.forEach(place => {
+        const elem = document.createElement('li');
 
-    const html = matchesArr.map(match => {
-        return `
-            <li>
-                <span class="name">${match.city}, ${match.state}</span>
-                <span class="population">${match.population}</span>
-            </li>
-        `;
-    }).join('');
-
-    suggestions.innerHTML = html;
+        elem.textContent = `${place.city}, ${place.state}, ${place.population}`;
+        suggestions.appendChild(elem);
+    });
 }
 
 const searchInput = document.querySelector('.search');
