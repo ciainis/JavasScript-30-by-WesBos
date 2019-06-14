@@ -14,8 +14,15 @@ const bands = [
   'An Old Dog'
 ];
 
+const sortedBands = bands.sort((a, b) => (strip(a) > strip(b) ? 1 : -1));
+const listOfBands = document.querySelector('#bands');
+
+sortedBands.forEach(band => {
+  const bandElem = document.createElement('li');
+  bandElem.textContent = band;
+  listOfBands.appendChild(bandElem);
+});
+
 function strip(bandName) {
   return bandName.replace(/^(a |the |an )/i, '').trim();
 }
-
-const sortedBands = bands.sort((a, b) => (strip(a) > strip(b) ? 1 : -1));
